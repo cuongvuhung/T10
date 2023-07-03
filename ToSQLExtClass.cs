@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-namespace T9
+﻿namespace T9
 {
     public static class ToSQLExtClass
     {
@@ -18,7 +9,7 @@ namespace T9
             if (str == "All") return ("Select * from Employees");
             if (str.Count() == 2)
             {
-                string[] words = str.Split(",");
+                string[] words = str.ToArrayString();
                 //Selecting.invoke();
                 return ("Select * from Employees where username= '" + words[0] + "' and password= '" + words[1] + "';");
 
@@ -36,7 +27,7 @@ namespace T9
         {
             if (str.Count() == 3)
             {
-                string[] words = str.Split(",");
+                string[] words = str.ToArrayString(); 
                 //Inserting.invoke();
                 return ("Insert into Employees (username, password, name, role, position) values ('"
                     + words[0] + "','" + words[1] + "','" + words[2] + "','User','Staff');");
@@ -49,7 +40,7 @@ namespace T9
         {
             if (str.Count() == 3)
             {
-                string[] words = str.Split(",");
+                string[] words = str.ToArrayString();
                 //Updating.invoke();
                 return ("Update Employees set " + words[0] + " = '" + words[1] + "' where id =" + words[2] + ";");
             }
@@ -60,28 +51,27 @@ namespace T9
         // Gen a SQL to DELETE employee with instr id or instr id and instr field with instr value
         public static string ToSQLDelEmp(this string str)
         {
-            if (str.Count() == 1)
-            {
-                //Deleting.invoke();
-                return ("Delete from Employees where id=" + str);
-            }
-
             if (str.Count() == 2)
             {
-                string[] words = str.Split(",");
+                string[] words = str.ToArrayString();
                 return ("Delete from Employees where " + words[0] + " = '" + words[1] + "';");
             }
             else
             {
                 return ("");
             }
-
         }
 
-        //Count how many item in string
+        // Count how many cell in string
         public static int Count(this string str)
         {
-            return str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Length;
+            return str.ToArrayString().Length;
+        }
+
+        // Gen a array of cell
+        public static string[] ToArrayString(this string str)
+        {
+            return str.Split(',') ;
         }
     }
 }

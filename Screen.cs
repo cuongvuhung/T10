@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-
-namespace T9
+﻿namespace T9
 {
-    
+
     internal class Screen
     {
         // User and dataexecute
@@ -39,7 +30,7 @@ namespace T9
         }
 
         // Login Screen
-        public void Login() 
+        private void Login() 
         {
             do
             {
@@ -48,14 +39,14 @@ namespace T9
                 Console.Write("User name:"); user.username = Console.ReadLine() + "";
                 Console.Write("Password:"); user.password = Console.ReadLine() + "";
                 string str = user.username + "," + user.password;
-                _ = new List<string>();
+                List<string> list;
                 try
                 {
-                    List<string> list = data.SQLQuery(str.ToSQLSelEmp());
+                    list = data.SQLQuery(str.ToSQLSelEmp());
                     foreach (string line in list) { Console.WriteLine(line); }                    
-                    user.username = list[0].Split(",")[0];
-                    user.role = list[0].Split(",")[2];
-                    user.name = list[0].Split(",")[3];                    
+                    user.username = list[0].ToArrayString()[0];
+                    user.role = list[0].ToArrayString()[2];
+                    user.name = list[0].ToArrayString()[3];                    
                 }
                 catch
                 {
@@ -67,7 +58,7 @@ namespace T9
 
 
         // Module Manager Screen
-        public void ManagerScreen()
+        private void ManagerScreen()
         {
             int selected = 0;
             do
@@ -135,7 +126,7 @@ namespace T9
         }
 
         // Module User Screen
-        public void UserScreen()
+        private void UserScreen()
         {
             int selected = 0;
             do
@@ -182,7 +173,7 @@ namespace T9
         }
 
         // Find Screen
-        public void FindScreen()
+        private void FindScreen()
         {
             try {
                 Console.Write("What field number u want to search by:");
@@ -204,7 +195,7 @@ namespace T9
         }
 
         // AddNew Screen
-        public void AddNewScreen()
+        private void AddNewScreen()
         {
             try 
             {
@@ -225,7 +216,7 @@ namespace T9
         }
 
         // Update Screen
-        public void UpdateScreen()
+        private void UpdateScreen()
         {
             try 
             {
@@ -245,7 +236,7 @@ namespace T9
         }
 
         // Delete Screen
-        public void DeleteScreen()
+        private void DeleteScreen()
         {
             try 
             {
@@ -263,7 +254,7 @@ namespace T9
         }
 
         // Import Screen
-        public void ImportScreen()
+        private void ImportScreen()
         {
             try
             {
@@ -291,7 +282,7 @@ namespace T9
         }
 
         // Export Screen
-        public void ExportScreen()
+        private void ExportScreen()
         {
             try
             {
@@ -314,7 +305,7 @@ namespace T9
         }
 
         // Sort Sreen
-        public void SortScreen()
+        private void SortScreen()
         {
             
             List<string> list = data.SQLQuery("All".ToSQLSelEmp());

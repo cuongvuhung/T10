@@ -1,7 +1,4 @@
-﻿
-using System.Runtime.Intrinsics.X86;
-
-namespace T9
+﻿namespace T9
 {
     internal class Program
     {
