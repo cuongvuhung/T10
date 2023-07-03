@@ -9,16 +9,19 @@ namespace T9
         // Excute SQL non querry
         private readonly Config config = new ();
         public void SQLExecute(string str)
-        {
-            Console.Write(str);Console.ReadLine();
+        {            
             SqlConnection cnn = new(config.conStr);
             cnn.Open();
             if (str != "")
             {
                 SqlCommand cmd = new(str, cnn);
                 cmd.ExecuteNonQuery();
+                Console.Write("Execute successful!"); Console.ReadLine();
             }
-            else { }
+            else 
+            {
+                Console.Write("Execute failed!"); Console.ReadLine();
+            }
             cnn.Close();
         }
 
@@ -30,8 +33,7 @@ namespace T9
             List<string> result = new();
             if (str != "")
             {                
-                SqlCommand cmd = new(str, cnn);
-                Console.Write(str);Console.ReadLine();
+                SqlCommand cmd = new(str, cnn);                
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
@@ -41,8 +43,13 @@ namespace T9
                         + "," + rdr["name"].ToString();
                     result.Add(row);
                 }
+                Console.Write("Query successful!"); Console.ReadLine();
             }
-            else { result = new(); }
+            else 
+            { 
+                result = new();
+                Console.Write("Query failed!"); Console.ReadLine();
+            }
             cnn.Close();
             return result;
         }

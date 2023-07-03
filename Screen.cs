@@ -176,6 +176,7 @@
         private void FindScreen()
         {
             try {
+                Console.Clear();
                 Console.Write("What field number u want to search by:");
                 string field = Console.ReadLine() + "";
                 Console.Write("What value u want to search:");
@@ -199,6 +200,7 @@
         {
             try 
             {
+                Console.Clear();
                 Console.Write("Name:");
                 string name = Console.ReadLine() + "";
                 Console.Write("UserName:");
@@ -220,6 +222,7 @@
         {
             try 
             {
+                Console.Clear();
                 Console.Write("ID:");
                 string id = Console.ReadLine() + "";
                 Console.Write("Field:");
@@ -240,6 +243,7 @@
         {
             try 
             {
+                Console.Clear();
                 Console.Write("Field:");
                 string field = Console.ReadLine() + "";
                 Console.Write("Value:");
@@ -258,6 +262,7 @@
         {
             try
             {
+                Console.Clear();
                 List<string> list = new();
                 Console.Write("File name:");
                 string filename = @"" + Console.ReadLine() + "";
@@ -286,6 +291,7 @@
         {
             try
             {
+                Console.Clear();
                 List<string> list = data.SQLQuery("All".ToSQLSelEmp());
                 Console.Write("File name:");
                 string filename = @"" + Console.ReadLine() + "";
@@ -307,7 +313,7 @@
         // Sort Sreen
         private void SortScreen()
         {
-            
+            Console.Clear();
             List<string> list = data.SQLQuery("All".ToSQLSelEmp());
             list.Sort();
             foreach (string line in list) 
