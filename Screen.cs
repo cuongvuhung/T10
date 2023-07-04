@@ -1,10 +1,10 @@
-﻿namespace T9
+﻿namespace T10
 {
 
     internal class Screen
     {
         // User and dataexecute
-        private User user = new();
+        private Employee user = new();
         private DataExecute data = new ();
         
         // Start
@@ -13,7 +13,7 @@
             
             do {
                 Login();
-                switch (user.role)
+                switch (user.Role)
                 {
                     case "manager":
                         ManagerScreen();
@@ -22,10 +22,10 @@
                         UserScreen();
                         break;
                     default:
-                        Console.Write("No role for ur user" + user.role); Console.ReadLine();
+                        Console.Write("No role for ur user" + user.Role); Console.ReadLine();
                         break;
                 }
-            } while (user.role =="");
+            } while (user.Role =="");
                 
         }
 
@@ -36,24 +36,25 @@
             {
                 Console.WriteLine("===== EMPLOYEE MANAGE =====");
                 Console.WriteLine("=====       LOGIN     =====");
-                Console.Write("User name:"); user.username = Console.ReadLine() + "";
-                Console.Write("Password:"); user.password = Console.ReadLine() + "";
-                string str = user.username + "," + user.password;
-                List<string> list;
+                Console.Write("User name:"); user.Username = Console.ReadLine() + "";
+                Console.Write("Password:"); user.Password = Console.ReadLine() + "";
+                string str = user.Username + "," + user.Password;
+                List<Employee> list;
                 try
                 {
-                    list = data.SQLQuery(str.ToSQLSelEmp());
-                    foreach (string line in list) { Console.WriteLine(line); }                    
-                    user.username = list[0].ToArrayString()[0];
-                    user.role = list[0].ToArrayString()[2];
-                    user.name = list[0].ToArrayString()[3];                    
+                    list = data.SQLQuery(str);
+                    foreach (Employee line in list) 
+                    {
+                        user.Role = line.Role;
+                        user.Name = line.Name;
+                    }                                                                                
                 }
                 catch
                 {
                     Console.WriteLine("Cant login!");
                 }
-                Console.WriteLine(user.role);
-            } while (user.role == "");            
+                Console.WriteLine(user.Role);
+            } while (user.Role == "");            
         }
 
 
@@ -67,7 +68,7 @@
                 Console.WriteLine("***EMPLOYEE MANAGER***");
                 Console.WriteLine("*** MANAGER SCREEN ***");
                 Console.WriteLine("----------------------");
-                Console.WriteLine("Username: {0}", user.username);
+                Console.WriteLine("Username: {0}", user.Username);
                 Console.WriteLine("----------------------");
                 Console.WriteLine("1. Search Employee by Name or EmpNo");
                 Console.WriteLine("2. Add New Employee");
@@ -113,7 +114,7 @@
                         break;
                     case 8:
                         Console.WriteLine("Logging out");
-                        user.role = "";                        
+                        user.Role = "";                        
                         break;
                     case 9:
                         Console.WriteLine("-------- END ---------");
@@ -122,7 +123,7 @@
                         Console.Write("Wrong format!"); Console.ReadLine();
                         break;
                 }
-            } while (selected != 9 && user.role !="");
+            } while (selected != 9 && user.Role !="");
         }
 
         // Module User Screen
@@ -135,7 +136,7 @@
                 Console.WriteLine("***EMPLOYEE MANAGER***");
                 Console.WriteLine("***  USER SCREEN   ***");
                 Console.WriteLine("----------------------");
-                Console.WriteLine("Username: {0}", user.username);
+                Console.WriteLine("Username: {0}", user.Username);
                 Console.WriteLine("----------------------");
                 Console.WriteLine("1. Search Employee by Name or EmpNo");
                 Console.WriteLine("2. Show a List of Employee Sorted");
@@ -161,7 +162,7 @@
                         break;
                     case 3:
                         Console.WriteLine("Logging out");
-                        user.role = "";
+                        user.Role = "";
                         break;
                     case 4:
                         break;
@@ -169,7 +170,7 @@
                         Console.Write("Wrong format!"); Console.ReadLine();
                         break;
                 }
-            } while (selected != 4 && user.role !="");
+            } while (selected != 4 && user.Role !="");
         }
 
         // Find Screen
@@ -177,14 +178,13 @@
         {
             try {
                 Console.Clear();
-                Console.Write("What field number u want to search by:");
-                string field = Console.ReadLine() + "";
-                Console.Write("What value u want to search:");
-                string value = Console.ReadLine() + "";
-                List<string> list = data.SQLQuery(value.ToSQLSelEmp(field));
-                foreach (string item in list)
+                Console.Write("Name:");
+                string str = Console.ReadLine() + "";
+                Console.WriteLine(str);
+                foreach (Employee item in data.SQLQuery(str))
                 {
-                    Console.WriteLine(item);
+                    Console.WriteLine(item.ToString());
+                    Console.ReadLine();
                 }
                 Console.ReadLine();
             } 
@@ -203,12 +203,14 @@
                 Console.Clear();
                 Console.Write("Name:");
                 string name = Console.ReadLine() + "";
-                Console.Write("UserName:");
-                string username = Console.ReadLine() + "";
                 Console.Write("PassWord:");
                 string password = Console.ReadLine() + "";
-                string str = username + "," + password + "," + name;
-                data.SQLExecute(str.ToSQLInsEmp());
+                Console.Write("UserName:");
+                string username = Console.ReadLine() + "";
+                Console.Write("Position:");
+                string position = Console.ReadLine() + "";
+                string str = name + "," + password + "," + username + "," + position;
+                data.SQLExecute(str);
             } 
             catch 
             {
@@ -223,14 +225,14 @@
             try 
             {
                 Console.Clear();
-                Console.Write("ID:");
-                string id = Console.ReadLine() + "";
+                Console.Write("Username:");
+                string username = Console.ReadLine() + "";
                 Console.Write("Field:");
                 string field = Console.ReadLine() + "";
                 Console.Write("Value:");
                 string value = Console.ReadLine() + "";
-                string str = field + "," + value + "," + id;
-                data.SQLExecute(str.ToSQLUpdEmp());
+                string str = username +","+ field + "," + value;
+                data.SQLExecute(str);
             }
             catch
             {
@@ -241,20 +243,17 @@
         // Delete Screen
         private void DeleteScreen()
         {
-            try 
-            {
+            //try 
+            //{
                 Console.Clear();
-                Console.Write("Field:");
-                string field = Console.ReadLine() + "";
-                Console.Write("Value:");
-                string value = Console.ReadLine() + "";
-                string str = field + "," + value;
-                data.SQLExecute(str.ToSQLDelEmp());
-            }
-            catch
-            {
-                Console.Write("Something wrong!"); Console.ReadLine();
-            }
+                Console.Write("Name:");
+                string str = Console.ReadLine() + "";
+                data.SQLExecute(str);
+            //}
+            //catch
+            //{
+            //    Console.Write("Something wrong!"); Console.ReadLine();
+            //}
         }
 
         // Import Screen
@@ -274,9 +273,13 @@
                     list.Add(line + "");
                 }
                 s.Close();
-                foreach (string strline in list)
+                foreach (string str in list)
                 {
-                    data.SQLExecute(strline.ToSQLInsEmp());
+                    try
+                    {
+                        data.SQLExecute(str);
+                    }
+                    catch { }
                 }
             }
             catch
@@ -292,14 +295,14 @@
             try
             {
                 Console.Clear();
-                List<string> list = data.SQLQuery("All".ToSQLSelEmp());
+                List<Employee> list = data.SQLQuery("All");
                 Console.Write("File name:");
                 string filename = @"" + Console.ReadLine() + "";
                 FileStream f = new(filename, FileMode.OpenOrCreate);
                 StreamWriter w = new(f);
-                foreach (string line in list)
+                foreach (Employee line in list)
                 {
-                    w.WriteLine(line + "");
+                    w.WriteLine(line.ToString() + "");
                 }
                 w.Close();
             }
@@ -314,11 +317,11 @@
         private void SortScreen()
         {
             Console.Clear();
-            List<string> list = data.SQLQuery("All".ToSQLSelEmp());
-            list.Sort();
-            foreach (string line in list) 
+            List<Employee> list = data.SQLQuery("All");
+            List<Employee> Sortedlist = list.OrderByDescending(x=>x.Position).ToList();
+            foreach (Employee line in Sortedlist) 
             {
-                Console.WriteLine(line);
+                Console.WriteLine(line.ToString());
             }
             Console.ReadLine();
         }

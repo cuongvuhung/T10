@@ -1,4 +1,4 @@
-﻿namespace T9
+﻿namespace T10
 {
     public class Config
     {

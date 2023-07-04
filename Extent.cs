@@ -1,10 +1,10 @@
-﻿namespace T9
+﻿namespace T10
 {
-    public static class ToSQLExtClass
+    public static class Extent
     {
         //=======================================================================================================
         // Gen a SQL to SEL emp with instr username and instr password
-        public static string ToSQLSelEmp(this string str)
+        /*public static string ToSQLSelEmp(this string str)
         {
             if (str == "All") return ("Select * from Employees");
             if (str.Count() == 2)
@@ -60,7 +60,7 @@
             {
                 return ("");
             }
-        }
+        }*/
 
         // Count how many cell in string
         public static int Count(this string str)
